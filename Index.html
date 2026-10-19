@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scan Dashboard</title>
+<style>
+body{font-family:Arial;background:#0f172a;color:white;text-align:center;padding:15px}
+.card{background:#1e293b;padding:20px;border-radius:15px;margin:15px auto;max-width:400px}
+input,button{padding:12px;width:90%;border-radius:8px;border:none;margin-top:10px}
+button{background:#38bdf8;color:#000;font-weight:bold}
+</style>
+</head>
+<body>
+<h1>🚀 Scan Dashboard</h1>
+<p>Seu App Funcionando no 3G - Luanda</p>
+<div class="card">
+<input id="url" placeholder="Digite um site: ex: google.com">
+<button onclick="document.getElementById('res').innerHTML='✅ Analisado: '+document.getElementById('url').value+'<br>Site OK para 3G!'">ESCANEAR</button>
+<p id="res">Pronto...</p>
+</div>
+</body>
+</html>

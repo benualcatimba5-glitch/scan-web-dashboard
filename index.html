@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Scan Dashboard - Angola</title>
+<style>
+body{margin:0;font-family:Arial;background:#0a192f;color:#fff;text-align:center;padding:20px}
+.card{background:#112240;padding:20px;border-radius:16px;max-width:420px;margin:20px auto;box-shadow:0 4px 20px #0005}
+input{width:90%;padding:14px;border-radius:10px;border:none;margin:8px 0;font-size:16px}
+button{width:93%;padding:14px;border-radius:10px;border:none;background:#38bdf8;color:#000;font-weight:800;font-size:16px}
+#r{margin-top:15px;text-align:left;background:#0a192f;padding:12px;border-radius:10px;line-height:1.6;min-height:40px}
+.badge{display:inline-block;padding:2px 8px;border-radius:6px;font-size:12px;margin:2px}
+.ok{background:#22c55e;color:#000} .bad{background:#ef4444;color:#fff} .warn{background:#f59e0b;color:#000}
+</style>
+</head>
+<body>
+<h2>🚀 Scan Dashboard</h2>
+<p style="opacity:.8">Angola - 3G Otimizado - by Benual</p>
+<div class="card">
+<input id="url" placeholder="Digite: google.com ou facebook.com">
+<button onclick="scan()">ESCANEAR DE VERDADE</button>
+<div id="r">Pronto para escanear...</div>
+</div>
+<script>
+async function scan(){
+let u=document.getElementById('url').value.trim();
+if(!u){alert('Digita um site!');return}
+if(!u.startsWith('http')) u='https://'+u;
+let r=document.getElementById('r');
+r.innerHTML='⏳ Escaneando '+u+'... (3G Luanda)';
+try{
+let res=await fetch('/scan',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({url:u})});
+let data=await res.json();
+if(data.error){r.innerHTML='<span class="badge bad">ERRO</span> '+data.error;return}
+r.innerHTML=`<b>✅ ${data.url}</b><br>
+<span class="badge ${data.status==200?'ok':'bad'}">Status ${data.status}</span>
+<span class="badge ${data.https?'ok':'bad'}">${data.https?'HTTPS OK':'SEM HTTPS'}</span><br>
+⏱️ Tempo: ${data.time}ms<br>
+📦 Tamanho: ${data.size} KB<br>
+🔍 Título: ${data.title||'N/A'}<br><br>
+${data.headers?Object.entries(data.headers).map(h=>`<span class="badge warn">${h[0]}</span> ${h[1]}<br>`).join(''):''}`;
+}catch(e){r.innerHTML='<span class="badge bad">FALHA</span> Erro: '+e.message}
+}
+</script>
+</body>
+</html>
